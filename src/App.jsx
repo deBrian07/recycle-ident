@@ -1,35 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
+  const [theme, setTheme] = useState('recycle');
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div className='min-h-screen flex flex-col items-center justify-center bg-base-100 p-8'>
+      <h1 className='text-5xl font-extrabold mb-8 text-primary-content'>
+        Recycle App
+      </h1>
+      <div className='flex flex-col sm:flex-row gap-4 mb-8'>
+        <button className='btn btn-primary btn-lg hover:scale-105 active:scale-95 focus:ring-4'>
+          Start Recycling
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+        <button className='btn btn-secondary btn-lg hover:scale-105 active:scale-95 focus:ring-4'>
+          Learn more
+        </button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      <div className='flex flex-wrap gap-2'>
+        {
+          ['recycle', 'light', 'dark'].map(t => (
+            <button key={t} onClick={(() => setTheme(t))} className='btn btn-sm'>
+              {t.charAt(0).toUpperCase()+t.slice(1)}
+            </button>
+          ))
+        }
+      </div>
+    </div>
   )
 }
-
-export default App
