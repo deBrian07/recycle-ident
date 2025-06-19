@@ -12,7 +12,7 @@ export default function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user),
-      setLoading(flase)
+      setLoading(false)
     })
     return () => unsubscribe()
   }, [])

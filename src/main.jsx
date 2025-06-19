@@ -8,6 +8,7 @@ import App from './App.jsx'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './pages/Login.jsx'
 import AuthGate from './components/AuthGate.jsx'
+import { CoinsProvider } from './hooks/useCoins.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -18,7 +19,9 @@ createRoot(document.getElementById('root')).render(
       <Route path='/login' element={<Login />} />
       <Route path='/*' element={
         <AuthGate>
-          <App />
+          <CoinsProvider>
+            <App />
+          </CoinsProvider>
         </AuthGate>
       } />
     </Routes>
