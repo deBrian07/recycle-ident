@@ -8,9 +8,10 @@ export default function App() {
   }, [theme]);
   return (
     <div className='min-h-screen flex flex-col items-center justify-center bg-base-100 p-8'>
-      <h1 className='text-5xl font-extrabold mb-8 text-primary-content'>
+      <h1 className='text-5xl font-extrabold mb-8 text-primary'>
         Recycle App
       </h1>
+      <p className='text-sm mb-4'>current theme: {theme}</p>
       <div className='flex flex-col sm:flex-row gap-4 mb-8'>
         <button className='btn btn-primary btn-lg hover:scale-105 active:scale-95 focus:ring-4'>
           Start Recycling

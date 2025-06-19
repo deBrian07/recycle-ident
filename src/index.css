@@ -1,5 +1,18 @@
-@tailwind base;
-@tailwind compoennts;
-@tailwind utilities;
+@import "tailwindcss";
+
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+  name: "recycle";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+
+  --color-primary: #10b981;
+  --color-primary-content: #ffffff;
+  --color-secondary: #F59E0B;
+  --color-secondary-content: #000000;
+}
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap')
