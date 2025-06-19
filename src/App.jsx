@@ -1,16 +1,41 @@
 import { useState, useEffect } from 'react'
 import './App.css'
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase';
+import Login from "./pages/Login"
 
 export default function App() {
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [theme, setTheme] = useState('recycle');
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user),
+      setLoading(flase)
+    })
+    return () => unsubscribe()
+  }, [])
+
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
+
+  if (loading) {
+    return <div className='flex h-screen items-center justify-center'>Loading...</div>
+  }
+  if (!user){
+    return <Login />
+  }
   return (
     <div className='min-h-screen flex flex-col items-center justify-center bg-base-100 p-8'>
       <h1 className='text-5xl font-extrabold mb-8 text-primary'>
         Recycle App
       </h1>
+      <p className='text-sm mb-4'>Welcome, {user.displayName}!</p>
+      <button onClick={() => auth.signOut()} className='btn btn-outline mb-4'>
+        Sign out
+      </button>
       <p className='text-sm mb-4'>current theme: {theme}</p>
       <div className='flex flex-col sm:flex-row gap-4 mb-8'>
         <button className='btn btn-primary btn-lg hover:scale-105 active:scale-95 focus:ring-4'>
