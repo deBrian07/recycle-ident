@@ -2,18 +2,15 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
-import Login from "./pages/Login"
 import Navbar from './components/Navbar';
 
 export default function App() {
   const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(false)
   const [theme, setTheme] = useState('recycle');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user),
-      setLoading(false)
+      setUser(user)
     })
     return () => unsubscribe()
   }, [])
@@ -22,12 +19,6 @@ export default function App() {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
-  if (loading) {
-    return <div className='flex h-screen items-center justify-center'>Loading...</div>
-  }
-  if (!user){
-    return <Login />
-  }
   return (
     <>
     <Navbar project="recycle" />
@@ -35,7 +26,7 @@ export default function App() {
       <h1 className='text-5xl font-extrabold mb-8 text-primary'>
         Recycle App
       </h1>
-      <p className='text-sm mb-4'>Welcome, {user.displayName}!</p>
+      <p className='text-sm mb-4'>Welcome, {user?.displayName || 'User'}!</p>
       <button onClick={() => auth.signOut()} className='btn btn-outline mb-4'>
         Sign out
       </button>

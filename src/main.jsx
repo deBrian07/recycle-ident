@@ -5,24 +5,35 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Login from './pages/Login.jsx'
 import AuthGate from './components/AuthGate.jsx'
 import { CoinsProvider } from './hooks/useCoins.jsx'
 
+const router = createBrowserRouter([
+  {
+    path: '/login',
+    element: <Login />
+  },
+  {
+    path: '/*',
+    element: (
+      <AuthGate>
+        <App />
+      </AuthGate>
+    )
+  }
+], {
+  future: {
+    v7_startTransition: true,
+    v7_relativeSplatPath: true
+  }
+})
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
-      <CoinsProvider>
-        <Routes>
-          <Route path='/login' element={<Login />} />
-          <Route path='/*' element={
-            <AuthGate>
-                <App />
-            </AuthGate>
-          } />
-        </Routes>
-      </CoinsProvider>
-    </BrowserRouter>
+    <CoinsProvider>
+      <RouterProvider router={router} />
+    </CoinsProvider>
   </StrictMode>
 )

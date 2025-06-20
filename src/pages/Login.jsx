@@ -1,13 +1,18 @@
 import { auth } from "../firebase"
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
+import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth"
 
 export default function Login(){
     const handleSignIn = async() => {
         const provider = new GoogleAuthProvider();
+        // Add custom parameters to ensure proper auth flow
+        provider.addScope('email');
+        provider.addScope('profile');
+        
         try{
-            await signInWithPopup(auth, provider)
+            // Use redirect instead of popup to avoid CORS issues
+            await signInWithRedirect(auth, provider);
         } catch(error){
-            console.error("Sign in failed")
+            console.error("Sign in failed:", error);
         }
     };
 
