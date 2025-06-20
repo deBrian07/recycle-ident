@@ -12,18 +12,17 @@ import { CoinsProvider } from './hooks/useCoins.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
-  </StrictMode>,
-  <BrowserRouter>
-    <Routes>
-      <Route path='/login' element={<Login />} />
-      <Route path='/*' element={
-        <AuthGate>
-          <CoinsProvider>
-            <App />
-          </CoinsProvider>
-        </AuthGate>
-      } />
-    </Routes>
-  </BrowserRouter>
+    <BrowserRouter>
+      <CoinsProvider>
+        <Routes>
+          <Route path='/login' element={<Login />} />
+          <Route path='/*' element={
+            <AuthGate>
+                <App />
+            </AuthGate>
+          } />
+        </Routes>
+      </CoinsProvider>
+    </BrowserRouter>
+  </StrictMode>
 )

@@ -3,6 +3,7 @@ import './App.css'
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import Login from "./pages/Login"
+import Navbar from './components/Navbar';
 
 export default function App() {
   const [user, setUser] = useState(null)
@@ -28,6 +29,8 @@ export default function App() {
     return <Login />
   }
   return (
+    <>
+    <Navbar project="recycle" />
     <div className='min-h-screen flex flex-col items-center justify-center bg-base-100 p-8'>
       <h1 className='text-5xl font-extrabold mb-8 text-primary'>
         Recycle App
@@ -55,5 +58,6 @@ export default function App() {
         }
       </div>
     </div>
+    </>
   )
 }
