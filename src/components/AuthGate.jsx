@@ -1,63 +1,47 @@
 import { useEffect, useState } from "react";
-import { onAuthStateChanged, getRedirectResult } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase"
 import { useNavigate } from "react-router-dom";
+import Login from "../pages/Login"
+import App from "../App"
 
-export default function AuthGate({ children }) {
+export default function AuthGate() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [redirectProcessed, setRedirectProcessed] = useState(false);
-    const navigate = useNavigate();
 
     useEffect(() => {
-        let isMounted = true;
-        
-        // First, check for redirect result
-        const checkRedirectResult = async () => {
-            try {
-                const result = await getRedirectResult(auth);
-                if (result && isMounted) {
-                    // User signed in via redirect
-                    setUser(result.user);
-                    setLoading(false);
-                }
-            } catch (error) {
-                console.error("Redirect result error:", error);
-            } finally {
-                if (isMounted) {
-                    setRedirectProcessed(true);
-                }
-            }
-        };
-
-        checkRedirectResult();
-
-        // Then listen for auth state changes
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            if (isMounted) {
-                setUser(currentUser);
-                if (redirectProcessed || currentUser) {
-                    setLoading(false);
-                    if (!currentUser && redirectProcessed) {
-                        navigate("/login", { replace: true });
-                    }
-                }
-            }
+            console.log("Auth state changed", {
+                hasUser: !!currentUser,
+                email: currentUser?.email,
+                name: currentUser?.displayName
+            })
+            setUser(currentUser);
+            setLoading(false);
         });
 
         return () => {
-            isMounted = false;
+            console.log("AuthGate: Cleanup")
             unsubscribe();
         };
-    }, [navigate, redirectProcessed]);
+    }, []);
 
     if (loading) {
-        return <div className="flex h-screen items-center justify-center">Loading...</div>
+        return (
+            <div className="flex h-screen items-center justify-center">
+                <div className="text-center">
+                    <div className="loading loading-spinner loading-lg"></div>
+                    <p className="mt-4">Checking  authentication</p>
+                </div>
+            </div>
+        )
     }
 
     if (!user) {
-        return null; // This will only happen briefly before redirect
+        console.log("AuthGate: no user, showing login")
+        return <Login />; // This will only happen briefly before redirect
     }
 
-    return <>{children}</>
+    console.log("AuthGate: user signed-in, showing app")
+    return <App />
 }
