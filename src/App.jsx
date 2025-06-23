@@ -3,6 +3,7 @@ import './App.css'
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import Navbar from './components/Navbar';
+import Upload from "./components/Upload";
 
 export default function App() {
   const [user, setUser] = useState(null)
@@ -47,6 +48,9 @@ export default function App() {
             </button>
           ))
         }
+      </div>
+      <div className='w-full max-w-md mb-6'>
+        <Upload accept={{ 'image/png': ['.png'], 'audio/*': [] }} color='secondary' />
       </div>
     </div>
     </>
