@@ -1,0 +1,5 @@
+[
+    {"material": "Plastic Bottle", "confidence": 0.42},
+    {"material": "Soda Can", "confidence": 0.8},
+    {"material": "Wood", "confidence": 0.68}
+]

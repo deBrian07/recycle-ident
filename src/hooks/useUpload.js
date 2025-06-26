@@ -12,7 +12,7 @@ function uploadFile(file, onProgress){
                 onProgress(Math.round(pct));
             },
             reject,
-            () => resolve(revokeAccessToken.snapshot)
+            () => resolve(task.snapshot)
         )
     })
 }

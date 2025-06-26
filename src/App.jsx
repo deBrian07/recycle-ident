@@ -5,6 +5,7 @@ import { auth } from './firebase';
 import Navbar from './components/Navbar';
 import Upload from "./components/Upload";
 import TestApi from './components/TestApi'
+import Dashboard from './pages/Dashboard';
 
 export default function App() {
   const [user, setUser] = useState(null)
@@ -51,7 +52,7 @@ export default function App() {
         }
       </div>
       <div className='w-full max-w-md mb-6'>
-        <Upload accept={{ 'image/png': ['.png'], 'audio/*': [] }} color='secondary' />
+        <Dashboard />
       </div>
       <TestApi />
     </div>
