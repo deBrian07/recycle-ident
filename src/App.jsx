@@ -6,10 +6,10 @@ import Navbar from './components/Navbar';
 import Upload from "./components/Upload";
 import TestApi from './components/TestApi'
 import Dashboard from './pages/Dashboard';
+import ThemeToggle from './components/ThemeToggle';
 
 export default function App() {
   const [user, setUser] = useState(null)
-  const [theme, setTheme] = useState('recycle');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -18,9 +18,6 @@ export default function App() {
     return () => unsubscribe()
   }, [])
 
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
 
   return (
     <>
@@ -33,7 +30,6 @@ export default function App() {
       <button onClick={() => auth.signOut()} className='btn btn-outline mb-4'>
         Sign out
       </button>
-      <p className='text-sm mb-4'>current theme: {theme}</p>
       <div className='flex flex-col sm:flex-row gap-4 mb-8'>
         <button className='btn btn-primary btn-lg hover:scale-105 active:scale-95 focus:ring-4'>
           Start Recycling
@@ -42,18 +38,10 @@ export default function App() {
           Learn more
         </button>
       </div>
-      <div className='flex flex-wrap gap-2'>
-        {
-          ['recycle', 'light', 'dark'].map(t => (
-            <button key={t} onClick={(() => setTheme(t))} className='btn btn-sm'>
-              {t.charAt(0).toUpperCase()+t.slice(1)}
-            </button>
-          ))
-        }
-      </div>
       <div className='w-full max-w-md mb-6'>
         <Dashboard />
       </div>
+      <ThemeToggle />
       <TestApi />
     </div>
     </>
